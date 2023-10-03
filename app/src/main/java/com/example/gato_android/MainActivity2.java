@@ -194,10 +194,34 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
             }
         }
         tiradas++;
-        quiengana();
+        if (Ganador(1)) {
+            ganar = true;
+        }
+        if (Ganador(2)) {
+            ganar2 = true;
+        }
         checa();
 
     }
+
+    public boolean Ganador(int jugador) {
+        int[][] combinacionesGanadoras = {
+                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+                {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
+                {0, 4, 8}, {2, 4, 6}
+        };
+
+        for (int[] combinacion : combinacionesGanadoras) {
+            if (gato[combinacion[0]] == jugador &&
+                    gato[combinacion[1]] == jugador &&
+                    gato[combinacion[2]] == jugador) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public void borrar(){
         i1.setImageResource(R.drawable.cruz);
@@ -244,7 +268,7 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
         }
     }
 
-    public void quiengana(){
+    /*public void quiengana(){
         if (gato[0]==1 && gato[1]==1 && gato[2]==1){
             ganar=true;
         }
@@ -294,7 +318,7 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
         if (gato[2]==2 && gato[4]==2 && gato[6]==2){
             ganar2=true;
         }
-    }
+    }*/
 public void reiniciar(Activity activity){
     Intent i=new Intent();
     i.setClass(activity,activity.getClass());
