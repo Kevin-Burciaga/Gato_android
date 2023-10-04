@@ -19,8 +19,7 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
     int aleatorio=0, tiradas=0;
     ImageView i1, i2,i3, i4, i5, i6, i7, i8, i9;
     boolean ganar=false, ganar2=false, notirar=false;
-    private static int j1=0, j2=0;
-    TextView p1, p2;
+    private static int j1=0, j2=0, en=0;
 
     int jugador=1;
 
@@ -37,8 +36,6 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
         i7 = (ImageView) findViewById(R.id.i7);
         i8 = (ImageView) findViewById(R.id.i8);
         i9 = (ImageView) findViewById(R.id.i9);
-        p1 = (TextView) findViewById(R.id.player1);
-        p2 = (TextView) findViewById(R.id.player2);
         for (int i=0;i <= 8; i++){
             gato[i]=0;
         }
@@ -53,7 +50,6 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
         i9.setOnClickListener(this);
         borrar();
         aleatorio=(int)(8*Math.random())+1;
-        actulizarM();
         bs=(Button) findViewById(R.id.btnS);
         bs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +61,17 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
         br.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reiniciar(MainActivity2.this);
+                Intent r = new Intent(MainActivity2.this, MainActivity3.class);
+                r.putExtra("Puntaje1", j1);
+                r.putExtra("Puntaje2",j2);
+                r.putExtra("Empate",en);
+                j1 = 0;
+                j2 = 0;
+                en = 0;
+                startActivity(r);
             }
         });
+
     }
 
     @Override
@@ -202,6 +206,11 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
         }
         checa();
 
+        if (v==br){
+           Intent p= new Intent(this, MainActivity2.class);
+            startActivity(p);
+        }
+
     }
 
     public boolean Ganador(int jugador) {
@@ -242,29 +251,25 @@ public class MainActivity2 extends AppCompatActivity  implements View.OnClickLis
         }
     }
 
-    public void actulizarM(){
-        p1.setText("");
-        p2.setText("");
-        String text1=String.valueOf(j1);
-        String text2=String.valueOf(j2);
-        p1.setText(text1);
-        p2.setText(text2);
-    }
 
     public void checa(){
         if (ganar==true){
             Toast toast=Toast.makeText(this,"Gano el jugador 1",Toast.LENGTH_SHORT);
             toast.show();
             j1+=1;
+            reiniciar(MainActivity2.this);
         }
         if (ganar2==true){
             Toast toast=Toast.makeText(this,"Gano el jugador 2",Toast.LENGTH_SHORT);
             toast.show();
             j2+=1;
+            reiniciar(MainActivity2.this);
         }
         if (tiradas==9&&ganar==false&&ganar2==false){
             Toast toast=Toast.makeText(this,"Empate",Toast.LENGTH_SHORT);
             toast.show();
+            en=en+1;
+            reiniciar(MainActivity2.this);
         }
     }
 
